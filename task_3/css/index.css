@@ -1,0 +1,104 @@
+@charset 'UTF-8';
+{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+/* 清除浮动 */
+.clearfix:after {
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+    content: ' ';
+}
+.clearfix {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.wrap{
+	position: relative;
+	min-width: 500px;
+    margin: 20px 50px;
+    padding: 20px;
+    background: #eee;
+}
+
+.wrap, .left-team, .team-logo, .main-contain, .right-personal, .person-logo {
+	border: 1px solid #999
+}
+
+/* left */
+.left-team {
+	-webkit-box-sizing: border-box; 
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+	float: left;
+	width: 200px;
+	padding: 20px;
+	background: #fff;
+}
+.team-logo {
+	display: inline-block;
+	height: 80px;
+	width: 80px;
+	float: left;
+
+}
+.team-logo img{
+	height: 80px;
+	width: 80px;
+}
+
+.team-name {
+	font-weight: bold;
+	margin-top: 20%;
+	margin-left: 8px;
+	text-align: center;
+}
+
+
+/* main */
+.main-contain {
+	width: auto;
+	height: auto;
+	margin-left: 220px;
+	margin-right: 140px;
+	padding: 20px;
+	background: #fff;
+}
+
+.main-contain p {
+	font-size: 15px;
+	line-height: 25px;
+	margin-top: 20px;
+	letter-spacing: 2px;
+}
+
+
+
+/* right */
+.right-personal {
+	float: right;
+	width: 120px;
+	background: #fff;
+}
+
+.person-logo {
+	-webkit-box-sizing: border-box; 
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+	width: 80px;
+	height: 80px;
+	margin: 20px;
+}
+.personal-logo img {
+    width: 80px;
+    height: 80px;
+}
