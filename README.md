@@ -12,3 +12,9 @@
 
 * [任务描述](http://ife.baidu.com/task/detail?taskId=4)
 * [demo](http://picknight.github.io/IFE-Spring/task_4/index.html)
+
+#### 任务六：通过HTML及CSS模拟报纸排版
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=6)
+* [demo](http://picknight.github.io/IFE-Spring/task_6/index.html)
