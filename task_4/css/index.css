@@ -1,0 +1,58 @@
+@charset 'UTF-8';
+{
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
+	list-style: none;
+	text-decoration: none;
+}
+/* 清除浮动 */
+.clearfix:after {
+	display: block;
+	visibility: hidden;
+	clear: both;
+	height: 0;
+	content: ' ';
+}
+.clearfix {
+	overflow: hidden;
+	zoom: 1;
+	*zoom: 1;
+}
+
+.box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform:translate(-50%,-50%);
+	-moz-transform:translate(-50%,-50%);
+	height: 200px;
+	width: 400px;
+	background: #ccc;	
+}
+
+/*content 用于撑开父容器*/
+.box::after, .box::before {
+	content: "";                         
+	display: block;
+	position: absolute;
+	height: 50px;
+	width: 50px;
+	background: #fc0;
+}
+
+.box::after {
+	left: 0;
+	top: 0;
+	border-radius: 0 0 100% 0;
+}
+
+.box::before {
+	right: 0;
+	bottom: 0;
+	border-radius: 100% 0 0 0;
+}
