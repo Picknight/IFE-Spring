@@ -1,0 +1,71 @@
+$height:50px;
+$pdValue:10px;
+$bgColor:#eee;
+$bdColor:#999;
+$bdWidth:1px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 0;
+}
+@mixin outerstyle {
+	float: left;
+	box-sizing: border-box;
+	padding: $pdValue;
+}
+@mixin innerstyle {
+	border: $bdWidth solid $bdColor;
+	background-color: $bgColor;
+	height: $height;
+}
+@mixin wrapstyle {
+	width:100%;               
+	box-sizing: border-box;
+	background-color: #FFF;
+	padding: $pdValue;
+}
+@mixin generateGrid($flag){
+	@if $flag{
+		@for $i from 1 through 12 {
+			.col-md-#{$i}{
+				width: (100% / 12 * $i);
+				@include outerstyle;
+			}
+		}
+	}@else {
+		@for $i from 1 through 12 {
+			.col-sm-#{$i}{
+				width: (100% / 12 * $i);
+				@include outerstyle;
+			}
+		}
+	}
+}
+
+.clearfix {
+	overflow: hidden;
+	zoom: 1;
+	*zoom: 1;
+	&:after {
+		display: block;
+		visibility: hidden;
+		clear: both;
+		height: 0;
+		content: ' ';
+	}
+}
+html,body{
+	@include resetCSS;
+}
+.wrap {
+	@include wrapstyle;
+}
+.inner {
+	@include innerstyle;
+}
+@media (min-width:769px){
+	@include generateGrid(true);
+}
+@media (max-width:768px){
+	@include generateGrid(false);
+}
