@@ -24,3 +24,9 @@
 
 * [任务描述](http://ife.baidu.com/task/detail?taskId=8)
 * [demo](http://picknight.github.io/IFE-Spring/task_8/index.html)
+
+#### 任务十：Flexbox 布局练习
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=10)
+* [demo](http://picknight.github.io/IFE-Spring/task_10/index.html)
