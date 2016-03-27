@@ -1,0 +1,68 @@
+$width: 150px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 0;
+}
+@mixin wrapstyle {
+	background-color: #424242;
+	height: 800px;
+	padding: 20px;
+
+	display: flex;
+	display: -webkit-flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+@mixin wrap-big {
+	align-items: center;
+}
+@mixin wrap-small {
+	align-items: flex-start;
+}
+@mixin inner {
+	border: 3px solid #f00;
+	width: $width;
+}
+@mixin special {
+	width: $width;
+	border: 3px solid #00f;
+}
+html,body{
+	@include resetCSS;
+}
+
+.d1 {
+	height: 120px;
+	@include inner;
+}
+.d2 {
+	height: 100px;
+	@include inner;
+}
+.d3 {
+	height: 40px;
+	@include inner;
+}
+
+@media (min-width:641px){
+	.wrap {
+		@include wrapstyle;
+		@include wrap-big;
+	}
+	.d4 {
+		height: 200px;
+		@include special;
+	}
+}
+@media (max-width:640px){
+	.wrap {
+		@include wrapstyle;
+		@include wrap-small;
+	}
+	.d4 {
+		order: -1;
+		height: 200px;
+		@include special;
+	}
+}
