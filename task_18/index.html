@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_18</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<input type="number">
+	<button onclick="push(1)">左侧入</button>
+	<button onclick="push(2)">右侧入</button>
+	<button onclick="pop(1)">左侧出</button>
+	<button onclick="pop(2)">右侧出</button>
+	<div class= "wrap">	
+	</div>
+</body>
+<script type="text/javascript">
+var box = document.getElementsByClassName('wrap')[0];
+var input = document.getElementsByTagName('input')[0];
+var src = [1,2,3,4,5];
+function push(k){
+	if(k==1){
+		src.splice(0, 0, input.value);
+	}else{
+		src.push(input.value);
+	}
+	render();
+}
+function pop(k){
+	if(k==1){
+		src.splice(0,1);
+	}else{
+		src.splice(src.length-1,1);
+	}
+	render();
+}
+function del(k) {
+	src.splice(k,1);
+	render();
+}
+function render() {
+  box.innerHTML = '';
+  for (var i = 0; i < src.length; i++) {
+  	var inner = document.createElement('div');
+  	inner.className = 'inner';
+  	inner.id = i;
+  	inner.setAttribute('onclick', 'del(this.id)');
+  	inner.innerHTML = src[i];
+  	box.appendChild(inner);
+  };
+}
+
+render();
+
+</script>
+</html>
