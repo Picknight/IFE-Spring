@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_17</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+	<link href="./css/index.css" rel="stylesheet">
+	
+</head>
+<body>
+	<fieldset id="form-gra-time">
+		<legend>请选择日期粒度：</legend>
+		<label>日<input name="gra-time" value="day" type="radio" checked="checked"></label>
+		<label>周<input name="gra-time" value="week" type="radio"></label>
+		<label>月<input name="gra-time" value="month" type="radio"></label>
+	</fieldset>
+
+	<fieldset>
+		<legend>请选择查看的城市：</legend>
+		<select id="city-select">
+		</select>
+	</fieldset>
+
+	<div class="aqi-chart-wrap"></div>
+</body>
+<script src="./task.js"></script>
+</html>
