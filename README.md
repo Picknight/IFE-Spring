@@ -49,18 +49,6 @@
 * [任务描述](http://ife.baidu.com/task/detail?taskId=18)
 * [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
 
-#### 任务十八：基础JavaScript练习（一）
-> author:Picknight
-
-* [任务描述](http://ife.baidu.com/task/detail?taskId=18)
-* [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
-
-#### 任务十八：基础JavaScript练习（一）
-> author:Picknight
-
-* [任务描述](http://ife.baidu.com/task/detail?taskId=18)
-* [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
-
 #### 任务十九：基础JavaScript练习（二）
 > author:Gizeta
 
