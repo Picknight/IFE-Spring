@@ -1,0 +1,36 @@
+$width: 50px;
+$padding: 30px;
+@mixin resetCSS {
+	margin: 0;
+	padding: 0;
+}
+
+@mixin wrapstyle {
+	width: 100%;
+	padding: $padding;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+}
+@mixin innerstyle {
+	width: $width;
+	height: $width;
+	margin-right: $padding;
+	background-color: red;
+
+	text-align:center;
+	line-height:$width;
+	color: white;
+}
+html,body{
+	@include resetCSS;
+}
+.wrap {
+	@include wrapstyle;
+}
+.inner {
+	@include innerstyle;
+}
+.seclect {
+	color:blue;
+}

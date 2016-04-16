@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_21</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<label>Tag: </label>
+	<input id="tag_input" />
+	<div class="result"></div>
+
+	<textarea id="input"></textarea>
+	<br>
+	<button id="solve">确认兴趣爱好</button>
+	<div class="wrap">	
+	</div>
+</body>
+
+<script type="text/javascript">
+
+var res = [];
+var $ = function (el) { return document.querySelector(el); };
+var tagInput = $('#tag_input');
+tagInput.oninput = function(){
+	var flag = tagInput.value.slice(-1);
+	if(flag == ','||flag == '，'||flag == ' '){
+		tagAddItem(tagInput.value.slice(0,-1));
+		tagInput.value = "";
+	}
+};
+tagInput.onkeydown = function(e){
+	if(e.keyCode === 13){
+		tagAddItem(tagInput.value);
+		tagInput.value = "";
+	}
+};
+function tagAddItem(item){
+	item = item.trim();
+	if(item.length==0) return;
+	if(res.indexOf(item) != -1) return;
+	if(res.length >= 10){
+		res = res.slice(1);
+	}
+	res.push(item);
+	tagRender();
+}
+function tagRender(){
+	$('.result').innerHTML = 
+	res.map(function(v){
+		return '<div class="ans" onMouseOver="showDelete(this);" onMouseOut="hideDelete(this);">' + v + 
+		'</div>';
+	}).join('');
+}
+function showDelete(node){
+	node.style.backgroundColor = 'red';
+	node.innerHTML = '点击删除' +  node.innerHTML;
+}
+function hideDelete(node){
+	node.style.backgroundColor = '#78BCFB';
+	node.innerHTML = node.innerHTML.slice(4);
+}
+function getClickIndex(e){
+	var node =  e.target;
+	if(node.className == 'result')
+		throw new Error('');
+	return [].indexOf.call(node.parentNode.children,node); 
+}
+function deal(func, succ) {
+	var args = [].slice.call(arguments, 2);
+	return function(e) {
+		try {
+			var arg = args.map(function(item) {
+				return typeof item === "function" ? item(e) : item;
+			});
+			var	result = func.apply(res, arg);	
+			if (succ != null) {
+				succ(result);
+			}
+		} catch (ex) {
+			if (ex.message != '')
+				alert(ex.message);
+		}
+		tagRender();
+	};
+}
+$('.result').onclick = deal([].splice, null, getClickIndex, 1);
+
+var data = [];
+function render(reg){
+	$('.wrap').innerHTML =
+	data.map(function(v){
+		return "<div class='inner'>" + v +"</div>";
+	}).join(' ');
+}
+$('#solve').onclick = function(){
+	var v = $('#input').value.split(/[^0-9a-zA-Z\u4E00-\u9FA5]+/).filter(function(v){return v!='';});
+	data = data.concat(v);
+	var temp = [];
+	for(var i = 0; i < data.length; i++)
+		if(temp.indexOf(data[i]) == -1) temp.push(data[i]);	
+	data = temp;
+	if(data.length >= 10){
+		data.splice(0,data.length-10);
+	}
+	render();
+};
+
+</script>
+</html>

@@ -1,0 +1,60 @@
+$width: 50px;
+$padding: 30px;
+@mixin resetCSS {
+	margin: 0;
+	padding: $padding;
+}
+@mixin resultstyle {
+	height: $width;
+	width: 100%;
+	padding: $padding;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+}
+@mixin ansstyle {
+	height: $width;
+	margin-right: $padding;
+	padding: 8px;
+	background-color: #78BCFB;
+
+	text-align:center;
+	line-height:$width;
+	color: white;
+}
+@mixin wrapstyle {
+	height: $width;
+	width: 100%;
+	padding: $padding;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+}
+@mixin innerstyle {
+	height: $width;
+	margin-right: $padding;
+	padding: 8px;
+	background-color: orange;
+
+	text-align:center;
+	line-height:$width;
+	color: white;
+}
+html,body{
+	@include resetCSS;
+}
+.result {
+	@include resultstyle;
+}
+.ans {
+	@include ansstyle;
+}
+.wrap {
+	@include wrapstyle;
+}
+.inner {
+	@include innerstyle;
+}
+.seclect {
+	color:blue;
+}
