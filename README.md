@@ -48,3 +48,51 @@
 
 * [任务描述](http://ife.baidu.com/task/detail?taskId=18)
 * [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
+
+#### 任务十八：基础JavaScript练习（一）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=18)
+* [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
+
+#### 任务十八：基础JavaScript练习（一）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=18)
+* [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
+
+#### 任务十九：基础JavaScript练习（二）
+> author:Gizeta
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=19)
+* [demo](http://five-african.github.io/task-stage2-final-submission/task19/)
+
+#### 任务二十：基础JavaScript练习（三）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=20)
+* [demo](http://picknight.github.io/IFE-Spring/task_20/index.html)
+
+#### 任务二十一：基础JavaScript练习（四）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=21)
+* [demo](http://picknight.github.io/IFE-Spring/task_21/index.html)
+
+#### 任务二十二：JavaScript和树（一）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=22)
+* [demo](http://picknight.github.io/IFE-Spring/task_22/index.html)
+
+#### 任务二十三：JavaScript和树（二）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=23)
+* [demo](http://picknight.github.io/IFE-Spring/task_23/index.html)
+
+#### 任务二十四：JavaScript和树（三）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=24)
+* [demo](http://picknight.github.io/IFE-Spring/task_24/index.html)
