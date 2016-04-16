@@ -1,0 +1,39 @@
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+}
+@mixin flexstyle {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	flex-grow: 1;
+	padding: 10px 5px;
+	border: 2px solid #000;
+	text-align: center;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+}
+@mixin wrapstyle {
+	@include flexstyle;
+	height: 100%;
+}
+@mixin rootstyle {
+	@include flexstyle;	
+	height: 150px;
+}
+html,body{
+	@include resetCSS;
+}
+.root {
+	@include rootstyle;
+}
+.root div{
+	@include wrapstyle;
+}
+.show {
+	background-color: pink;
+}
+.selected {
+	background-color: blue;
+}

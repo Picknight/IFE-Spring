@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_23</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<div>
+		<div class="root">
+			1
+			<div class="wrap">
+				2
+				<div class="wrap">
+					3
+					<div class="wrap">4</div>
+					<div class="wrap">5</div>
+					<div class="wrap">6</div>
+				</div>
+				<div class="wrap">
+					7
+					<div class="wrap">8</div>
+					<div class="wrap">9</div>
+					<div class="wrap">10</div>
+					<div class="wrap">11</div>
+				</div>
+			</div>
+			<div class="wrap">
+				12
+				<div class="wrap">
+					13
+					<div class="wrap">14</div>
+					<div class="wrap">15</div>
+					<div class="wrap">16</div>
+				</div>
+				<div class="wrap">
+					17
+					<div class="wrap">18</div>
+					<div class="wrap">19</div>
+					<div class="wrap">20</div>
+				</div>
+				<div class="wrap">
+					21
+					<div class="wrap">22</div>
+					<div class="wrap">23</div>
+					<div class="wrap">24</div>
+					<div class="wrap">25</div>
+					<div class="wrap">26</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<button id="dfs_bt" style="margin-left: 440px;margin-top: 40px;">DFS</button>
+		<input  id="search_in" placeholder="key_value">
+		<button id="search_bt">Search</button>
+	</div>
+</body>
+
+<script type="text/javascript">
+var $ = function (el) { return document.querySelector(el); };
+//事件绑定兼容
+function addEventHandler(ele, event, hanlder) {
+	if (ele.addEventListener) {
+		ele.addEventListener(event, hanlder, false);
+	} else if (ele.attachEvent) {
+		ele.attachEvent("on"+event, hanlder);
+	} else  {
+		ele["on" + event] = hanlder;
+	}
+}
+function delay(fn, t) {
+	var queue = [], self, timer;
+	function schedule(fn, t) {
+		timer = setTimeout(function() {
+			timer = null;
+			fn();
+			if (queue.length) {
+				var next = queue.shift();
+				schedule(next.fn, next.t);
+			}
+		}, t);
+	}
+	self = {
+		delay: function(fn, t) {
+			if (queue.length || timer) {
+				queue.push({fn: fn, t: t});
+			} else {
+				schedule(fn, t);
+			}
+			return self;
+		},
+		cancel: function() {
+			clearTimeout(timer);
+			queue = [];
+		}
+	}
+	return self.delay(fn, t);
+}
+function render(node, flag){
+	return function(){
+		if(node == root)
+			node.className = flag ? 'root show' : 'root';
+		else
+			node.className = flag ? 'wrap show' : 'wrap';
+	}
+}
+var root = $('.root');
+var dfs_bt = $('#dfs_bt');
+var bfs_bt = $('#bfs_bt');
+var search_bt = $('#search_bt');
+var search_in = $('#search_in');
+var key = '';
+var queue = delay(function(){},0);
+(function(){
+	addEventHandler(dfs_bt,'click',function(){dfs(root)});
+	addEventHandler(search_bt,'click',search);
+})();
+function dfs(node){
+	if(key !== '' && key === node.innerText.split('\n')[0]){
+		queue.delay(render(node, 1),0);
+		return 0;
+	}
+	queue.delay(render(node, 1),0);
+	queue.delay(render(node, 0),500);	
+
+	node = node.firstElementChild;
+	while(node){
+		if(!dfs(node)) return 0;
+		node = node.nextElementSibling;
+	}
+	return 1;
+}
+function search(){
+	key = search_in.value;
+	if(dfs(root))
+		queue.delay(function(){alert("找不到欸~~~");},0);;
+}
+</script>
+</html>

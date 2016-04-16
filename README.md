@@ -30,3 +30,21 @@
 
 * [任务描述](http://ife.baidu.com/task/detail?taskId=10)
 * [demo](http://picknight.github.io/IFE-Spring/task_10/index.html)
+
+#### 任务十六：零基础JavaScript编码（四）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=16)
+* [demo](http://picknight.github.io/IFE-Spring/task_16/index.html)
+
+#### 任务十七：零基础JavaScript编码（五）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=17)
+* [demo](http://picknight.github.io/IFE-Spring/task_17/index.html)
+
+#### 任务十八：基础JavaScript练习（一）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=18)
+* [demo](http://picknight.github.io/IFE-Spring/task_18/index.html)
