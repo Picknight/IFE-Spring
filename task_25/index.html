@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_25</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<fieldset class="field">
+		<legend>Tree Assembly</legend>
+		<input type="text"> 
+		<button onclick="Search()">Search</button>
+		<button onclick="Clear()">Clear</button>
+
+		<div class="result">
+
+
+			<div class="node">
+				<div class="label" onmouseenter="ShowHandler()" onmouseleave="HideHandler()">
+					<img src="./image/arrow-down.png" class="arrowIcon" onclick="ChangeContent()"></img>
+					<span class="val" onclick="ChangeContent()">前端</span>
+					<span name="handler" class="hiden">
+						<img src="./image/add.png" class="addIcon" onclick="AddNode()"></img>
+						<img src="./image/del.png" class="delIcon" onclick="DelNode()"></img>
+					</span>
+				</div>
+				<div class="content">
+					<div class="node">
+						<div class="label" onmouseenter="ShowHandler()" onmouseleave="HideHandler()">
+							<img src="./image/arrow-right.png" class="arrowIcon" onclick="ChangeContent()"></img>
+							<span class="val" onclick="ChangeContent()">Grunt</span>
+							<span name="handler" class="hiden">
+								<img src="./image/add.png" class="addIcon" onclick="AddNode()"></img>
+								<img src="./image/del.png" class="delIcon" onclick="DelNode()"></img>
+							</span>
+						</div>
+						<div class="content">
+						</div>
+					</div> 
+					<div class="node">
+						<div class="label" onmouseenter="ShowHandler()" onmouseleave="HideHandler()">
+							<img src="./image/arrow-right.png" class="arrowIcon" onclick="ChangeContent()"></img>
+							<span class="val" onclick="ChangeContent()">Gulp</span>
+							<span name="handler" class="hiden">
+								<img src="./image/add.png" class="addIcon" onclick="AddNode()"></img>
+								<img src="./image/del.png" class="delIcon" onclick="DelNode()"></img>
+							</span>
+						</div>
+						<div class="content">
+						</div>
+					</div> 
+					<div class="node">
+						<div class="label" onmouseenter="ShowHandler()" onmouseleave="HideHandler()">
+							<img src="./image/arrow-right.png" class="arrowIcon" onclick="ChangeContent()"></img>
+							<span class="val" onclick="ChangeContent()">Webpack</span>
+							<span name="handler" class="hiden">
+								<img src="./image/add.png" class="addIcon" onclick="AddNode()"></img>
+								<img src="./image/del.png" class="delIcon" onclick="DelNode()"></img>
+							</span>
+						</div>
+						<div class="content">
+						</div>
+					</div> 
+				</div>
+			</div> 
+
+		</div>
+	</fieldset>
+</body>
+
+<script type="text/javascript">
+var $ = function (el) { return document.querySelector(el); };
+var $$ = function (el) { return document.querySelectorAll(el); };
+
+var result = $('.result');
+var input = $('fieldset input');
+var search_bt = $$('fieldset>button')[0];
+var clear_bt = $$('fieldset>button')[1];
+function ShowHandler(){
+	event.target.querySelector('[name="handler"]').className = '';
+}
+function HideHandler(){
+	event.target.querySelector('[name="handler"]').className = 'hiden';
+}
+function ChangeContent(){
+	var node = event.target.parentNode.parentNode;
+	if(node.querySelector('.content').className == 'content'){
+		node.querySelector('.content').className = 'content hiden';
+		node.querySelector('.arrowIcon').src = "./image/arrow-right.png";
+		return;
+	}
+	node.querySelector('.content').className = 'content';
+	node.querySelector('.arrowIcon').src = "./image/arrow-down.png";
+}
+function AddNode(){
+	var val = prompt('Input node value ~');
+	if(!val) return;
+	var content = event.target.parentNode.parentNode.parentNode.querySelector('.content');
+	content.appendChild(CreatNode(val));
+	content.parentNode.querySelector('.arrowIcon').src = "./image/arrow-down.png";
+	content.parentNode.querySelector('.content').className = 'content';
+	render();
+}
+function DelNode(){
+	var node = event.target.parentNode.parentNode.parentNode;
+	node.parentNode.removeChild(node);
+	render();
+}
+function CreatNode(val) {
+	var node = document.createElement('div');
+	node.className = 'node';
+	node.innerHTML = 
+	`<div class="label" onmouseenter="ShowHandler()" onmouseleave="HideHandler()">
+	<img src="./image/arrow-right.png" class="arrowIcon" onclick="ChangeContent()"></img>
+	<span class="val" onclick="ChangeContent()">` + val + `</span>
+	<span name="handler" class="hiden">
+	<img src="./image/add.png" class="addIcon" onclick="AddNode()"></img>
+	<img src="./image/del.png" class="delIcon" onclick="DelNode()"></img>
+	</span>
+	</div>
+	<div class="content">
+	</div>`;
+	return node;
+}
+/* 判断箭头的朝向 */
+function render(){
+	var arr = result.querySelectorAll('.node');
+	[].map.call(arr, function(node){
+		//console.log(node.querySelector('.content'));
+		if(node.querySelector('.content').children.length == 0){
+			node.querySelector('.arrowIcon').className = 'arrowIcon disappear';
+		}else{
+			node.querySelector('.arrowIcon').className = 'arrowIcon';
+		}
+	});
+}
+
+/* 纠正初始时节点前的箭头的朝向 */
+render();
+function Search(){
+	var arr = result.querySelectorAll('.val');
+	[].map.call(arr, function(node){node.className = 'val';});
+
+	var node = result.querySelector('.node');
+	var value = input.value.trim();
+	if(dfs(node, value)){
+		node.querySelector('.content').className = 'content';
+		node.querySelector('.arrowIcon').src = "./image/arrow-down.png";
+	}
+	if(node.querySelector('.val').innerHTML === value){
+		node.querySelector('.val').className = 'val red';
+	}
+}
+function dfs(node, val){
+	var arr = node.querySelector('.content').children;
+	var flag = 0;
+	[].map.call(arr, function(n){
+		flag = dfs(n, val) || flag;
+	});
+	if(flag){
+		node.querySelector('.content').className = 'content';
+		node.querySelector('.arrowIcon').src = "./image/arrow-down.png";
+	}
+	console.log(node.querySelector('.val'));
+	if(node.querySelector('.val').innerHTML === val){
+		node.querySelector('.val').className = 'red val';
+		return 1;
+	}
+	return flag;
+}
+function Clear(){
+	input.value = '';
+	var arr = result.querySelectorAll('.val');
+	[].map.call(arr, function(node){node.className = 'val';});
+}
+</script>
+</html>
