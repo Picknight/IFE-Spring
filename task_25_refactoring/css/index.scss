@@ -1,0 +1,89 @@
+$size : 15px;
+$line_size : 25px;
+$color_blue : #6898c2;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+html,body{
+	@include resetCSS;
+}
+fieldset {
+	width: 40%;
+	margin-left: 30%;
+}
+fieldset input{
+	margin-left: $size * 2;
+}
+
+.node-usual {
+	margin-left: $size * 2;
+	user-select: none;
+	-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.node-hiden {
+	display: none;
+}
+#result {
+	text-align : center;
+}
+.node-header {
+	line-height : $line_size;
+}
+.icon {
+	display : inline-block;
+	width : $line_size;
+	height: $line_size;
+	&:hover {
+    	cursor: pointer;
+	}
+}
+.empty-arrow {
+	
+}
+.right-arrow {
+	background-image: url("../image/arrow-right.png");
+}
+.down-arrow {
+	background-image: url("../image/arrow-down.png");	
+}
+
+.node-title {
+	display : inline-block;
+	height: $line_size;
+	color: $color_blue;
+	margin-right : $size * 2;
+	&:hover {
+		color: blue;
+    	cursor: pointer;
+	}
+}
+.highlight {
+	display : inline-block;
+	height: $line_size;
+	color: red;
+	margin-right : $size * 2;
+	&:hover {
+		color: blue;
+    	cursor: pointer;
+	}
+}
+
+@mixin bt_style {
+	display: inline-block;
+	width : $line_size - 10px;
+	height: $line_size - 10px;
+	&:hover {
+    	cursor: pointer;
+	}
+}
+.add_bt,.del_bt {
+	display: none;
+}
+.node-header:hover>.add_bt,.node-header:hover>.del_bt {
+	@include bt_style;
+}

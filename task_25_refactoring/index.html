@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Task_25_refactoring</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+
+</head>
+<body>
+    <fieldset>
+        <legend>Tree Assembly</legend>
+        <input type="text">&nbsp;
+        <button id="search">Search</button>
+        <button id="clear">Clear</button>
+
+        <br>
+        <p id="result"></p>
+
+        <div id="tree-area">
+            <div class="node-usual">
+                <div class="node-header">
+                    <div class="icon empty-arrow">&nbsp;</div> 
+                    <div class="node-title">前端攻城狮</div>
+                    <img class="add_bt" src="./image/add.png">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</body>
+<script type="text/javascript">
+
+var $ = function (el) { return document.querySelector(el); };
+//事件绑定兼容
+function addEventHandler(ele, event, hanlder) {
+    if (ele.addEventListener) {
+        ele.addEventListener(event, hanlder, false);
+    } else if (ele.attachEvent) {
+        ele.attachEvent("on"+event, hanlder);
+    } else  {
+        ele["on" + event] = hanlder;
+    }
+}
+var search_bt = $('#search');
+var clear_bt = $('#clear');
+var tree_area = $('#tree-area');
+var input = $('input');
+var result = $('#result');
+var root;
+function TreeNode(obj) {
+    this.text = obj.text;
+    this.childs = obj.childs || [];
+    this.parent = obj.parent;
+    this.selfElement = obj.selfElement;
+    this.selfElement.TreeNode = this;
+}
+TreeNode.prototype = {
+    constructor : TreeNode,
+    render : function(show){
+        if(this.isLeaf()){
+            this.selfElement.getElementsByClassName('icon')[0].className = 'icon empty-arrow';
+        }else if(show){
+            this.selfElement.getElementsByClassName('icon')[0].className = 'icon down-arrow';
+        }else{
+            this.selfElement.getElementsByClassName('icon')[0].className = 'icon right-arrow';
+        }
+        this.childs.map(function(node){
+            node.selfElement.className = show?'node-usual':'node-hiden';
+        });
+    },
+    highlight : function(){
+        this.selfElement.getElementsByClassName('node-title')[0].className = 'highlight';
+    },
+    push : function(text){
+        var newNode = document.createElement('div');
+        newNode.className ='node-usual';
+        newNode.innerHTML = 
+        `<div class="node-header">
+            <div class="icon empty-arrow">&nbsp;</div> 
+            <div class="node-title">` + text + `</div>
+            <img class="add_bt" src="./image/add.png">
+            <img class="del_bt" src="./image/del.png">
+        </div>`;
+        this.selfElement.appendChild(newNode);
+        this.childs.push(new TreeNode({text: text,parent: this,selfElement: newNode}));
+        this.render(true);
+        return this;
+    },
+    search :function(val){
+        var res = 0;
+        this.childs.map(function(node){
+            res += node.search(val);
+        });
+        if(res !== 0) this.render(true);
+        if(this.text === val){
+            this.highlight();
+            res++;
+        }
+        return res;
+    },
+    delete : function(node){
+        this.selfElement.removeChild(node.selfElement);
+        this.childs.splice(this.childs.indexOf(node),1);
+        this.render(true);
+    },
+    isLeaf : function(){
+        return this.childs.length === 0;
+    },
+    toggle : function(){
+        if(this.isLeaf()) return;
+        if(this.childs[0].selfElement.className.indexOf('hiden') !== -1){
+            this.render(true);
+        }else{
+            this.render(false);
+        }
+    }
+};
+(function(){
+    addEventHandler(clear_bt,'click',clear);
+    addEventHandler(search_bt,'click',search);
+    addEventHandler(tree_area,'click',tree_click);
+    /* 为根节点加索引 */
+    root = new TreeNode({text: $('.node-title').innerHTML,parent : null,selfElement :$('.node-usual')});
+})();
+
+function clear(){
+    input.value = '';
+    result.innerHTML = "";
+    var arr = tree_area.querySelectorAll('.highlight');
+    [].map.call(arr, function(node){node.className = 'node-title';});
+}
+function search(){
+    var arr = tree_area.querySelectorAll('.highlight');
+    [].map.call(arr, function(node){node.className = 'node-title';});
+
+    var ans = root.search(input.value);
+    result.innerHTML = "找到 "+ ans +" 个目标结点~";
+}
+function tree_click(){
+    var node = event.target;
+    if(node.className.indexOf('icon') !== -1  || node.className === 'node-title'){
+        node = node.parentNode.parentNode;
+        node.TreeNode.toggle();
+        return;
+    }
+    if(node.className === 'add_bt'){
+        node = node.parentNode.parentNode;
+        var text = prompt('Input node value ~');
+        if(!text) return;
+        node.TreeNode.push(text);
+        return;
+    }
+    if(node.className === 'del_bt'){
+        node = node.parentNode.parentNode;
+        node.TreeNode.parent.delete(node.TreeNode);
+        return;
+    }
+    return;
+}
+
+
+</script>
+</html>
