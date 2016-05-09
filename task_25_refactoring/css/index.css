@@ -1,0 +1,71 @@
+@charset "UTF-8";
+html, body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Arial","Microsoft YaHei","榛戜綋","瀹嬩綋",sans-serif; }
+
+fieldset {
+  width: 40%;
+  margin-left: 30%; }
+
+fieldset input {
+  margin-left: 30px; }
+
+.node-usual {
+  margin-left: 30px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
+
+.node-hiden {
+  display: none; }
+
+#result {
+  text-align: center; }
+
+.node-header {
+  line-height: 25px; }
+
+.icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px; }
+  .icon:hover {
+    cursor: pointer; }
+
+.right-arrow {
+  background-image: url("../image/arrow-right.png"); }
+
+.down-arrow {
+  background-image: url("../image/arrow-down.png"); }
+
+.node-title {
+  display: inline-block;
+  height: 25px;
+  color: #6898c2;
+  margin-right: 30px; }
+  .node-title:hover {
+    color: blue;
+    cursor: pointer; }
+
+.highlight {
+  display: inline-block;
+  height: 25px;
+  color: red;
+  margin-right: 30px; }
+  .highlight:hover {
+    color: blue;
+    cursor: pointer; }
+
+.add_bt, .del_bt {
+  display: none; }
+
+.node-header:hover > .add_bt, .node-header:hover > .del_bt {
+  display: inline-block;
+  width: 15px;
+  height: 15px; }
+  .node-header:hover > .add_bt:hover, .node-header:hover > .del_bt:hover {
+    cursor: pointer; }
+
+/*# sourceMappingURL=index.css.map */

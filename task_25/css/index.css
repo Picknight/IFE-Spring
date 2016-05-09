@@ -1,0 +1,49 @@
+@charset "UTF-8";
+html, body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Arial","Microsoft YaHei","榛戜綋","瀹嬩綋",sans-serif; }
+
+.field {
+  width: 40%;
+  margin-left: 30%; }
+
+.field input {
+  margin-left: 30px; }
+
+.result {
+  margin-top: 30px; }
+
+.node {
+  margin-left: 30px; }
+
+.label {
+  line-height: 25px;
+  color: #6898c2; }
+
+.hiden {
+  display: none; }
+
+.disappear {
+  visibility: hidden; }
+
+.red {
+  color: red; }
+
+.val {
+  line-height: 25px;
+  margin-right: 30px; }
+  .val:hover {
+    color: blue;
+    cursor: pointer; }
+
+.addIcon, .delIcon, .arrowIcon {
+  width: 15px;
+  height: 15px; }
+  .addIcon:hover, .delIcon:hover, .arrowIcon:hover {
+    cursor: pointer; }
+
+.arrowIcon {
+  margin-right: 10px; }
+
+/*# sourceMappingURL=index.css.map */

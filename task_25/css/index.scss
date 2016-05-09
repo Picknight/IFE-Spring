@@ -1,0 +1,76 @@
+$size : 15px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+html,body{
+	@include resetCSS;
+}
+
+@mixin field_style {
+	width: 40%;
+	margin-left: 30%;
+}
+.field {
+	@include field_style;
+}
+.field input{
+	margin-left: $size * 2;
+}
+
+
+@mixin result_style {
+	margin-top: 30px;
+}
+.result {
+	@include result_style;
+}
+
+@mixin node_style {
+	margin-left: $size * 2;
+}
+.node {
+	@include node_style;
+}
+.label {
+	line-height: 25px;
+	color: #6898c2;
+}
+
+.hiden {
+	display: none;
+}
+.disappear {
+	visibility: hidden;
+}
+.red {
+	color: red;
+}
+@mixin val_style {
+	line-height: 25px;
+	
+	margin-right: $size * 2;
+}
+.val {
+	@include val_style;
+	&:hover {
+		color: blue;
+    	cursor: pointer;
+	}
+}
+@mixin Icon_style {
+	width: $size;
+	height: $size;
+}
+.addIcon, .delIcon, .arrowIcon {
+	@include Icon_style;
+	&:hover {
+    	cursor: pointer;
+	}
+}
+.arrowIcon {
+	margin-right: $size - 5px;
+}
+
