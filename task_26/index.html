@@ -6,6 +6,12 @@
 	<title>Task_26</title>
 	<meta name="description" content="">
 	<meta name="keywords" content="">
+
+	<!-- Loading Bootstrap -->
+	<link href="./dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Loading Flat UI -->
+	<link href="./dist/css/flat-ui.min.css" rel="stylesheet">
+
 	<link rel="stylesheet" type="text/css" href="./css/index.css">
 	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
 </head>
@@ -37,16 +43,16 @@
 			<div class="hole-5"></div>
 		</div>
 		<div class="orbite-1">
-			<div class="craft-model-1"><div class="craft-1">100</div></div>
+			<div class="craft-model-1 hidden"><div class="craft">100</div></div>
 		</div>
 		<div class="orbite-2">
-			<div class="craft-model-2"><div class="craft-2">100</div></div>
+			<div class="craft-model-2 hidden"><div class="craft">100</div></div>
 		</div>
 		<div class="orbite-3">
-			<div class="craft-model-3"><div class="craft-3">100</div></div>
+			<div class="craft-model-3 hidden"><div class="craft">100</div></div>
 		</div>
 		<div class="orbite-4">
-			<div class="craft-model-4"><div class="craft-4">100</div></div>
+			<div class="craft-model-4 hidden"><div class="craft">100</div></div>
 		</div>
 	</div>
 
@@ -54,23 +60,105 @@
 	<div class="control">
 		<div class="control-slide">
 			<div class="label">1号</div>
+			<span class="fui-plus bt"></span>
+			<span class="fui-play bt"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">2号</div>
+			<span class="fui-plus bt"></span>
+			<span class="fui-play bt"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">3号</div>
+			<span class="fui-plus bt"></span>
+			<span class="fui-play bt"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">4号</div>
+			<span class="fui-plus bt"></span>
+			<span class="fui-play bt"></span>
 		</div>
 	</div>
+
+	<!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+	<script src="./dist/js/vendor/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="./dist/js/vendor/video.js"></script>
+	<script src="./dist/js/flat-ui.min.js"></script>
 
 </body>
 
 <script type="text/javascript">
 var $ = function (el) { return document.querySelector(el); };
 var $$ = function (el) { return document.querySelectorAll(el); };
+function addEventHandler(ele, event, hanlder) {
+	if (ele.addEventListener) {
+		ele.addEventListener(event, hanlder, false);
+	} else if (ele.attachEvent) {
+		ele.attachEvent("on"+event, hanlder);
+	} else  {
+		ele["on" + event] = hanlder;
+	}
+}
+function craft(obj){
+	this.orbite = obj.orbite;
+	this.rate = obj.rate;
+	this.consume = obj.consume;
+	this.charge = obj.charge;
+	this.selfElement = obj.selfElement;
+	//console.log(this.selfElement);
+}
+craft.prototype = {
+	show: function(){
+		this.selfElement.className = this.selfElement.className.split(' ')[0];
+	},
+	hidden: function(){
+		this.selfElement.className += ' hidden';
+	},
+	run: function(){
+		this.selfElement.className += ' rotating';
+	},
+	stop: function(){
+		this.selfElement.style.animationPlayState = 'paused';
+	}
+};
+function click(){
+	var node = event.target;
+	var id = parseInt(bts.indexOf(node)/2);
+
+	if(node.className.indexOf('plus')!==-1){
+		crafts[id].show();
+		node.className = 'fui-trash bt';		
+		return;
+	}
+	if(node.className.indexOf('trash')!==-1){
+		crafts[id].hidden();
+		node.className = 'fui-plus bt';		
+		return;
+	}
+	if(node.className.indexOf('play')!==-1){
+		crafts[id].run();
+		node.className = 'fui-pause bt';		
+		return;
+	}
+	if(node.className.indexOf('pause')!==-1){
+		crafts[id].stop();
+		node.className = 'fui-play bt';		
+		return;
+	}	
+}
+var crafts = [];
+var bts = [];
+(function(){
+	for (var i = 0; i < 4; i++) {
+		crafts[i] = 
+		new craft({orbite: i, rate: 6, consume: 3, charge: 2, selfElement: $$('.hidden')[i]});	
+	};
+	bts = [].slice.apply($$('.bt'));
+	bts.map(function(node){
+		addEventHandler(node, 'click', click);
+	});
+})();
 
 </script>
 </html>
