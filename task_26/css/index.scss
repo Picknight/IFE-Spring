@@ -1,0 +1,222 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+@mixin resetCSS {
+	width: 100%;
+	height: 100%;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+html,body{
+	@include resetCSS;
+	min-width: 1280px;
+	background-color: #02071d;
+}
+.align-middle {
+	position: absolute;
+	top:0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+}
+.hidden {
+	display: none;
+}
+@keyframes rotating {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+.rotating {
+	animation: rotating 50s linear infinite;   
+}
+.background {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	& [class^=planet] {
+		width: 50px;
+		height : 50px;
+		position : absolute;
+		border-radius: 50%;
+		animation: rotating 30s linear infinite;
+		overflow: hidden;
+	}
+	& .hole-1 {
+		position: absolute;
+		border-radius: 50%;
+		width: 15px;
+		height: 15px;
+		top: 20px;
+		left: 30px;
+	}
+	& .hole-2 {
+		position: absolute;
+		border-radius: 50%;
+		width: 13px;
+		height: 13px;
+		top: 10px;
+		left: -5px;
+	}
+	.planet-1 {
+		top: 100px;
+		left: 340px;
+		background-color: #d9e6cd;
+		& .hole-1 {
+			background-color: #cbd1c6;
+		}
+		& .hole-2 {
+			background-color: #999b8d;
+		}
+	}
+	.planet-2 {
+		width: 40px;
+		height: 40px;
+		top: 130px;
+		left: 970px;
+		background-color: #11a4c6;
+		& .hole-1 {
+			background-color: #1068a8;
+		}
+		& .hole-2 {
+			background-color: #84bde7;
+		}
+	}
+	.planet-3 {
+		top: 400px;
+		left: 1100px;
+		background-color: #f5a83e;
+		& .hole-1 {
+			background-color: #e0862e;
+		}
+		& .hole-2 {
+			background-color: #e0862e;
+		}
+	}
+	.planet-4 {
+		width: 40px;
+		height: 40px;
+		top: 440px;
+		left: 320px;
+		background-color: #f5a83e;
+		& .hole-1 {
+			background-color: #e0862e;
+		}
+		& .hole-2 {
+			background-color: #e0862e;
+		}
+	}
+}
+.layout {
+	position: relative;
+	margin: 0 auto;
+	width: 800px;
+	height: 680px;
+	& .planet {
+		@extend .align-middle;
+		animation: rotating 50s linear infinite;
+		border-radius: 50%;
+		width: 250px;
+		height: 250px;
+		background-color: #ec5d4a;
+		overflow: hidden;
+		& [class^=hole] {
+			position: absolute;
+			border-radius: 50%;
+			background-color: #c83b38;
+		}
+		& .hole-3 {
+			width: 25px;
+			height: 25px;
+			top: 80px;
+			left: -3px;
+		}
+		& .hole-4 {
+			width: 35px;
+			height: 35px;
+			top:  110px;
+			left: 70px;
+		}
+		& .hole-5 {
+			width: 45px;
+			height: 45px;
+			top: 90px;
+			left: 220px;
+		}
+	}
+
+	@for $i from 1 through 4 {
+		& .orbite-#{$i} {
+			@extend .align-middle;
+			width: 250px + $i * 100px;
+			height: 250px + $i * 100px;
+			border: 2px solid #3e4059;
+			border-radius: 50%;
+		}
+		& .craft-model-#{$i} {         
+			position: relative;
+			margin: 0 auto;
+			width : 40px;
+			height: 250px + $i * 100px;
+		}
+	}
+	& .craft {
+		position: relative;
+		top: -10px;
+		width: 100%;
+		height: 20px;
+		text-align: center;
+		font-size: 14px;
+		border-radius: 10px;
+		background-color: #2fa06c;
+	}
+}
+.dotted {
+	position : absolute;
+	border: 2px dotted #3b3f58;
+	border-radius: 10px;
+}
+.console {
+	@extend .dotted;
+	right : 20px;
+	top: 20px;
+	width : 300px;
+	height: 350px;
+}
+.control {
+	@extend .dotted;
+	left : 20px;
+	top: 20px;
+	width : 300px;
+	height: 360px;
+	& .bt {
+		color: white;
+		margin-left: 30px;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	& .control-slide {
+		height: 90px;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-items: center;
+	}
+	& .label {
+		width: 60px;
+		height: 60px;
+		display: inline-block;
+		border-radius: 50%;
+		background-color: #2ECC71;
+		line-height: 60px;
+		color: white;
+		text-align: center;
+	}
+}
+
