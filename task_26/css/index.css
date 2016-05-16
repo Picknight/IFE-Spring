@@ -9,7 +9,8 @@ html, body {
   height: 100%;
   font-family: "Arial","Microsoft YaHei","榛戜綋","瀹嬩綋",sans-serif;
   min-width: 1280px;
-  background-color: #02071d; }
+  background-color: #02071d;
+  overflow: hidden; }
 
 .align-middle, .layout .planet, .layout .orbite-1, .layout .orbite-2, .layout .orbite-3, .layout .orbite-4 {
   position: absolute;
@@ -21,6 +22,11 @@ html, body {
 
 .hidden {
   display: none; }
+
+.disabled {
+  color: #95a5a6;
+  cursor: default;
+  margin-left: 30px; }
 
 @keyframes rotating {
   0% {
@@ -182,7 +188,16 @@ html, body {
   right: 20px;
   top: 20px;
   width: 300px;
-  height: 350px; }
+  height: 350px;
+  padding: 10px;
+  overflow: hidden; }
+  .console p {
+    padding: 0;
+    line-height: 9px;
+    color: white;
+    font-size: 14px; }
+  .console .error {
+    color: #32a39d; }
 
 .control {
   left: 20px;

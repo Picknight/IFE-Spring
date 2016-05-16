@@ -56,27 +56,28 @@
 		</div>
 	</div>
 
-	<div class="console"></div>
+	<div class="console">
+	</div>
 	<div class="control">
 		<div class="control-slide">
 			<div class="label">1号</div>
 			<span class="fui-plus bt"></span>
-			<span class="fui-play bt"></span>
+			<span class="fui-play disabled"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">2号</div>
 			<span class="fui-plus bt"></span>
-			<span class="fui-play bt"></span>
+			<span class="fui-play disabled"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">3号</div>
 			<span class="fui-plus bt"></span>
-			<span class="fui-play bt"></span>
+			<span class="fui-play disabled"></span>
 		</div>
 		<div class="control-slide">
 			<div class="label">4号</div>
 			<span class="fui-plus bt"></span>
-			<span class="fui-play bt"></span>
+			<span class="fui-play disabled"></span>
 		</div>
 	</div>
 
@@ -91,6 +92,7 @@
 <script type="text/javascript">
 var $ = function (el) { return document.querySelector(el); };
 var $$ = function (el) { return document.querySelectorAll(el); };
+/* 兼容绑定事件 */
 function addEventHandler(ele, event, hanlder) {
 	if (ele.addEventListener) {
 		ele.addEventListener(event, hanlder, false);
@@ -100,64 +102,176 @@ function addEventHandler(ele, event, hanlder) {
 		ele["on" + event] = hanlder;
 	}
 }
+/* 飞船的构造器，int是用于在飞行和停止状态下更新能源的interval*/
 function craft(obj){
+	/* status有四种状态0,1,2,3;对应已销毁，已创建，飞行中，已停止*/
+	this.status = obj.status || 0;
+	this.resource = obj.resource;
 	this.orbite = obj.orbite;
 	this.rate = obj.rate;
 	this.consume = obj.consume;
 	this.charge = obj.charge;
+	this.int = null;
+	/* 指向dom树的节点 */
 	this.selfElement = obj.selfElement;
-	//console.log(this.selfElement);
+	/* 初始时更新资源值 */
+	this.selfElement.firstChild.innerHTML = this.resource;
 }
 craft.prototype = {
-	show: function(){
-		this.selfElement.className = this.selfElement.className.split(' ')[0];
-	},
+	/* 销毁 */
 	hidden: function(){
+		/* 检查是否已经处于该状态 */
+		if(this.status === 0) return;
+		this.selfElement.style.animationPlayState = "paused";
 		this.selfElement.className += ' hidden';
+		window.clearInterval(this.int);
+		this.change_status(0);
 	},
+	/* 创建 */
+	show: function(){
+		if(this.status === 1) return;
+		this.selfElement.className = this.selfElement.className.replace(/hidden/g,'');
+		this.change_status(1);
+	},
+	/* 飞行 */
 	run: function(){
-		this.selfElement.className += ' rotating';
+		if(this.status === 2) return;
+		window.clearInterval(this.int);
+		/* 开启interval，更新资源 */
+		this.int = setInterval((function(that){
+			return function(){
+				if(that.resource > 0){
+					that.resource -= (that.consume - that.charge);
+					that.selfElement.firstChild.innerHTML 
+					= parseInt(that.selfElement.firstChild.innerHTML) - (that.consume - that.charge);
+				}
+				if(!that.resource){
+					that.stop();
+				}
+			}
+		})(this), 1000);
+		this.selfElement.style.animation = "rotating " + 360/this.rate + "s linear infinite"
+		this.change_status(2);
 	},
+	/* 停止 */
 	stop: function(){
-		this.selfElement.style.animationPlayState = 'paused';
+		if(this.status !== 2) return;
+		this.selfElement.style.animationPlayState="paused";
+		window.clearInterval(this.int);
+		this.int = setInterval((function(that){
+			return function(){
+				if(that.resource < 100){
+					that.resource += that.charge;
+					that.selfElement.firstChild.innerHTML 
+					= parseInt(that.selfElement.firstChild.innerHTML) + that.charge;
+				}
+				if(that.resource > 100){
+					that.resource = 100;
+					that.selfElement.firstChild.innerHTML = 100;
+				}
+			}
+		})(this), 1000);
+		this.change_status(3);
+	},
+	/* 变更状态时更新 控制台*/
+	change_status: function(val){
+		var id = crafts.indexOf(this) * 2 + 1;
+		this.status = val;
+		if(!this.status){
+			bts[id].className = bts[id].className.replace("bt",'disabled');
+		}else if(this.status === 1){
+			bts[id].className = bts[id].className.replace("disabled",'bt');
+			bts[id].className = bts[id].className.replace("pause",'play');
+		}else if(this.status === 3){
+			bts[id].className = bts[id].className.replace("pause",'play');
+		}
 	}
 };
+/* 用于打印指令到console */
+function log(text, type){
+	if(arguments.length === 1) type = 0;
+	var node = document.createElement('p');
+	node.innerHTML = text;
+	/* type:1  error; type:0 normal*/
+	if(type)
+		node.className = 'error';
+	printer.appendChild(node);
+	node.scrollIntoView();
+}
+/* false: 表示丢包，true: 表示正常*/
+function radom(){
+	var v = Math.random() * 100;
+	if(v >= 30) return true;
+	return false;
+}
+/* 无耻的代码堆砌 */
 function click(){
 	var node = event.target;
 	var id = parseInt(bts.indexOf(node)/2);
-
 	if(node.className.indexOf('plus')!==-1){
-		crafts[id].show();
+		log('[指挥官]：' + (id+1) + '号飞船创建指令已发出~');
+		if(radom()){
+			crafts[id].show();
+			log('[消息]：' + (id+1) + '号飞船创建成功~');
+		}else{
+			log('[错误]：' + (id+1) + '号飞船创建指令丢包了~', 1);
+		}
 		node.className = 'fui-trash bt';		
 		return;
 	}
 	if(node.className.indexOf('trash')!==-1){
-		crafts[id].hidden();
+		log('[指挥官]：' + (id+1) + '号飞船销毁指令已发出~');
+		if(radom()){
+			crafts[id].hidden();
+			log('[消息]：' + (id+1) + '号飞船销毁成功~');
+		}else{
+			log('[错误]：' + (id+1) + '号飞船销毁指令丢包了~', 1);
+		}
+		
 		node.className = 'fui-plus bt';		
 		return;
 	}
 	if(node.className.indexOf('play')!==-1){
-		crafts[id].run();
+		log('[指挥官]：' + (id+1) + '号飞船飞行指令已发出~');
+		if(radom()){
+			crafts[id].run();
+			log('[消息]：' + (id+1) + '号飞船飞行成功~');
+		}else{
+			log('[错误]：' + (id+1) + '号飞船飞行指令丢包了~', 1);
+		}
+		
 		node.className = 'fui-pause bt';		
 		return;
 	}
 	if(node.className.indexOf('pause')!==-1){
-		crafts[id].stop();
+		log('[指挥官]：' + (id+1) + '号飞船停止指令已发出~');
+		if(radom()){
+			crafts[id].stop();
+			log('[消息]：' + (id+1) + '号飞船停止成功~');
+		}else{
+			log('[错误]：' + (id+1) + '号飞船停止指令丢包了~', 1);
+		}
+		
 		node.className = 'fui-play bt';		
 		return;
 	}	
 }
+/* 飞船数组 */
 var crafts = [];
+/* 控制台按钮数组，每两个对应一艘飞船 */
 var bts = [];
+/* console */
+var printer;
 (function(){
 	for (var i = 0; i < 4; i++) {
 		crafts[i] = 
-		new craft({orbite: i, rate: 6, consume: 3, charge: 2, selfElement: $$('.hidden')[i]});	
+		new craft({resource: 100, orbite: i, rate: 6, consume: 3, charge: 2, selfElement: $$('.hidden')[i]});	
 	};
-	bts = [].slice.apply($$('.bt'));
+	printer = $('.console');
+	bts = [].slice.apply($$('[class^=fui-]'));
 	bts.map(function(node){
 		addEventHandler(node, 'click', click);
-	});
+	});		
 })();
 
 </script>

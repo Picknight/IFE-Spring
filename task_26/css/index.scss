@@ -12,6 +12,7 @@ html,body{
 	@include resetCSS;
 	min-width: 1280px;
 	background-color: #02071d;
+	overflow: hidden;
 }
 .align-middle {
 	position: absolute;
@@ -23,6 +24,11 @@ html,body{
 }
 .hidden {
 	display: none;
+}
+.disabled {
+	color: #95a5a6;
+	cursor: default;
+	margin-left: 30px;
 }
 @keyframes rotating {
 	0% {
@@ -187,7 +193,19 @@ html,body{
 	top: 20px;
 	width : 300px;
 	height: 350px;
+	padding: 10px;
+	overflow: hidden;
+	& p{
+		padding: 0;
+		line-height: 9px;
+		color: white;
+		font-size: 14px;
+	}
+	& .error {
+		color: #32a39d;
+	}
 }
+
 .control {
 	@extend .dotted;
 	left : 20px;
