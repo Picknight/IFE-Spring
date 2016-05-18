@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_29</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="label">名称</div>
+		<input>
+		<div class="bt">验证</div>
+		<div class="result">必填，长度为4~16个字符</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+var $ = function (el) { return document.querySelector(el); };
+var $$ = function (el) { return document.querySelectorAll(el); };
+/* 兼容绑定事件 */
+function addEventHandler(ele, event, hanlder) {
+	if (ele.addEventListener) {
+		ele.addEventListener(event, hanlder, false);
+	} else if (ele.attachEvent) {
+		ele.attachEvent("on"+event, hanlder);
+	} else  {
+		ele["on" + event] = hanlder;
+	}
+}
+
+function click(){
+	var text = input.value.trim();
+	if(text === ''){
+		input.className = 'red-border';
+		res.className = 'result red';
+		res.innerHTML = '输入不能为空~~';
+		return;
+	}
+	if(check(text)){
+		input.className = 'green-border';
+		res.className = 'result green';
+		res.innerHTML = '名称格式正确~';
+	}else {
+		input.className = 'red-border';
+		res.className = 'result red';
+		res.innerHTML = '请按照正确格式输入~';
+	}
+}
+function check(text){
+	var ans = 0;
+	for (var i = 0; i < text.length; i++) {
+		var c = text.charCodeAt(i);
+		if(c <= 128 && c >= 0) ans++;
+		else ans += 2;
+	};
+	if(ans >= 4 && ans <= 16) return 1;
+	return 0;
+}
+var input = $('input');
+var bt = $('.bt');
+var res = $('.result');
+(function(){
+	addEventHandler(bt, 'click', click);
+})();
+</script>
+</html>
