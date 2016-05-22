@@ -1,0 +1,76 @@
+$size : 50px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+html,body{
+	@include resetCSS;
+}
+
+.wrap {
+	padding: 10px;
+	height: $size;
+	margin-top: 10px;
+
+	& .label {
+		display: inline-block;
+		width: 130px;
+		font-size: 16px;
+		font-weight: bold;
+		line-height: $size;
+		text-align: center;
+	}
+	& input {
+		height: 70%;
+		padding: 0 20px;
+		font-size: 16px;
+		width: 320px;
+		border: 2px solid #9E9E9E;
+		border-radius: 7px;
+	}
+	& .blue-border{
+		border: 2px solid #2196F3;
+	}
+	& .red-border{
+		border: 2px solid #F44336;
+	}
+	& .green-border{
+		border: 2px solid #4CAF50;
+	}
+
+	& .result {
+		margin-left: 140px;
+		font-size: 14px;
+		color: #9E9E9E;
+	}
+	& .red {
+		color: #F44336;
+	}
+	& .green {
+		color: #4CAF50;
+	}
+}
+.bt {
+	display: inline-block;
+	height: 80%;
+	width: 100px;
+	border-radius: 10px;
+	margin-left: 410px;
+	background-color: #2196F3;
+	text-align: center;
+	font-weight: bold;
+	line-height: $size * 0.8;
+	color: white;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+
+
+
+
+
