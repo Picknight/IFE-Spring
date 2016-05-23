@@ -1,0 +1,47 @@
+$size : 50px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+html,body{
+	@include resetCSS;
+}
+.wrap {
+	padding: 0 150px;
+	height: $size;
+	margin-top: 10px;
+	& span {
+		margin-right: 150px;
+		text-align: center;
+	}	
+}
+.no-stu {
+	padding: 10px;
+	height: $size;
+	margin-top: 10px;
+	& .input {
+		width: 450px;
+		margin-left: 70px;
+	}
+}
+.stu {
+	padding: 10px;
+	height: $size;
+	margin-top: 10px;
+	& .select {
+		width: 200px;
+		margin-left: 100px;
+		margin-right: -50px;
+	}
+}
+.hidden {
+	display: none;
+}
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+@charset "UTF-8";
+html, body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Arial","Microsoft YaHei","榛戜綋","瀹嬩綋",sans-serif; }
+
+.wrap {
+  padding: 0 150px;
+  height: 50px;
+  margin-top: 10px; }
+  .wrap span {
+    margin-right: 150px;
+    text-align: center; }
+
+.no-stu {
+  padding: 10px;
+  height: 50px;
+  margin-top: 10px; }
+  .no-stu .input {
+    width: 450px;
+    margin-left: 70px; }
+
+.stu {
+  padding: 10px;
+  height: 50px;
+  margin-top: 10px; }
+  .stu .select {
+    width: 200px;
+    margin-left: 100px;
+    margin-right: -50px; }
+
+.hidden {
+  display: none; }
+
+/*# sourceMappingURL=index.css.map */

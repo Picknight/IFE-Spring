@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_31</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+
+	<div class="wrap">
+		<input type="radio" checked name="stu" value="1"/>
+		<span>在校生</span>
+		<input type="radio"  name="stu" value="2"/>
+		<span>非在校生</span>
+	</div>
+	<div class="stu">
+		<span class="label">学校</span>
+		<select class="select">
+		</select>
+		<select class="select">
+		</select>
+	</div>
+	<div class="no-stu hidden">
+		<span class="label">就业单位</span>
+		<input class="input"/>
+	</div>
+	
+
+</body>
+
+<script type="text/javascript">
+var $ = function (el) { return document.querySelector(el); };
+var $$ = function (el) { return document.querySelectorAll(el); };
+var school = {
+	'':[''],
+	'北京':['清华大学','北京大学'],
+	'天津':['南开大学','天津大学'],
+	'上海':['同济大学','复旦大学']
+}
+/* 兼容绑定事件 */
+function addEventHandler(ele, event, hanlder) {
+	if (ele.addEventListener) {
+		ele.addEventListener(event, hanlder, false);
+	} else if (ele.attachEvent) {
+		ele.attachEvent("on"+event, hanlder);
+	} else  {
+		ele["on" + event] = hanlder;
+	}
+}
+function click(){
+	var id = event.target.value;
+	if(id === '1'){
+		stu.className = 'stu';
+		no_stu.className = 'no-stu hidden';
+	}else{
+		stu.className = 'stu hidden';
+		no_stu.className = 'no-stu';
+	}
+}
+function change(){
+	var arr = school[select_add.value];
+	select_sch.innerHTML =  arr.map(function(v){
+		return '<option value="'+ v +'">'+ v +'</option>';
+	}).join('');
+}
+var radios = [].slice.apply($$('[name=stu]'));
+var stu = $('.stu');
+var no_stu = $('.no-stu');
+var select_add = $$('.select')[0];
+var select_sch = $$('.select')[1];
+(function(){
+	radios.map(function(radio){
+		addEventHandler(radio, 'click', click);
+	});
+	var res = '';
+	for(var key in school){
+		res += '<option value="'+ key +'">'+ key +'</option>';
+	}
+	select_add.innerHTML =  res;
+	addEventHandler(select_add, 'change', change);
+})();
+</script>
+</html>
