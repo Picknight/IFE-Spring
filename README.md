@@ -84,3 +84,9 @@
 
 * [任务描述](http://ife.baidu.com/task/detail?taskId=24)
 * [demo](http://picknight.github.io/IFE-Spring/task_24/index.html)
+
+#### 任务二十五：JavaScript和树（四）
+> author:Picknight
+
+* [任务描述](http://ife.baidu.com/task/detail?taskId=25)
+* [demo](http://picknight.github.io/IFE-Spring/task_25/index.html)
