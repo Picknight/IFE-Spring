@@ -1,0 +1,113 @@
+$size_20 : 37px;
+$size_30 : 25px;
+
+@mixin resetCSS {
+	margin: 0;
+	padding: 20px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+html,body{
+	@include resetCSS;
+}
+@mixin clearfix {
+	overflow: hidden;
+	zoom: 1;
+	*zoom: 1;
+	&:after {
+		display: block;
+		visibility: hidden;
+		clear: both;
+		height: 0;
+		content: ' ';
+	}
+}
+@mixin editor {
+	box-sizing: border-box;
+	float: left;
+	font-family: Menlo, Consolas, monospace;
+	line-height: 20px;
+	height: 100%;
+	color: #ecf0f1;
+}
+.warning {
+	background-color: #f39c12;
+}
+.success {
+	background-color: #27ae60;
+}
+.error {
+	background-color: #ea6153;
+}
+.cat {
+	position: absolute;
+	left: $size_20;
+	top: $size_20;
+	width: $size_20;
+	height: $size_20;
+	box-sizing: border-box;
+	transition-property: left, top, transform;
+	transition-duration: .25s;
+}
+.wrap{
+	@include clearfix;
+	position: relative;
+	margin: auto;
+
+	& .map{
+		border-collapse: collapse;
+		float: left;
+
+		& .box{
+			width: $size_20;
+			height: $size_20;
+			box-sizing: border-box;
+			border: 1px solid #bdc3c7;
+		}
+		& .box[data-type=wall] {
+			background-color: #bdc3c7;
+		}
+		& .box[data-type=x] {
+			text-align: center;
+			border: 0;
+		}
+	}
+
+	& .control{
+		float: right;
+		& .bt-group {
+			height: $size_20;
+		}
+		& .cd-line {
+			@include clearfix;
+			width: 440px;
+			height: 740px;
+			& .cd-left{
+				@include editor;
+				border-radius: 5px 0 0 5px;
+				background-color: #2c3e50;
+				width: 40px;
+				font-size: 12px;
+				text-align: right;
+				padding-top: 5px;
+				cursor: default;
+			}
+			& .cd-right {
+				@include editor;
+				font-size: 16px;
+				width: 400px;
+				box-sizing: border-box;				
+				border-radius: 0 4px 4px 0;				
+				padding: 5px;				
+				background-color: #34495e;
+				
+				margin: 0;
+				outline: none;
+				border: 0;
+				resize: none;
+			}
+			& .cd-text {
+				padding-right: 5px;
+			}
+		}
+	}
+}

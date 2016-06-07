@@ -1,0 +1,100 @@
+html, body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+.warning {
+  background-color: #f39c12; }
+
+.success {
+  background-color: #27ae60; }
+
+.error {
+  background-color: #ea6153; }
+
+.cat {
+  position: absolute;
+  left: 37px;
+  top: 37px;
+  width: 37px;
+  height: 37px;
+  box-sizing: border-box;
+  transition-property: left, top, transform;
+  transition-duration: .25s; }
+
+.wrap {
+  overflow: hidden;
+  zoom: 1;
+  *zoom: 1;
+  position: relative;
+  margin: auto; }
+  .wrap:after {
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+    content: ' '; }
+  .wrap .map {
+    border-collapse: collapse;
+    float: left; }
+    .wrap .map .box {
+      width: 37px;
+      height: 37px;
+      box-sizing: border-box;
+      border: 1px solid #bdc3c7; }
+    .wrap .map .box[data-type=wall] {
+      background-color: #bdc3c7; }
+    .wrap .map .box[data-type=x] {
+      text-align: center;
+      border: 0; }
+  .wrap .control {
+    float: right; }
+    .wrap .control .bt-group {
+      height: 37px; }
+    .wrap .control .cd-line {
+      overflow: hidden;
+      zoom: 1;
+      *zoom: 1;
+      width: 440px;
+      height: 740px; }
+      .wrap .control .cd-line:after {
+        display: block;
+        visibility: hidden;
+        clear: both;
+        height: 0;
+        content: ' '; }
+      .wrap .control .cd-line .cd-left {
+        box-sizing: border-box;
+        float: left;
+        font-family: Menlo, Consolas, monospace;
+        line-height: 20px;
+        height: 100%;
+        color: #ecf0f1;
+        border-radius: 5px 0 0 5px;
+        background-color: #2c3e50;
+        width: 40px;
+        font-size: 12px;
+        text-align: right;
+        padding-top: 5px;
+        cursor: default; }
+      .wrap .control .cd-line .cd-right {
+        box-sizing: border-box;
+        float: left;
+        font-family: Menlo, Consolas, monospace;
+        line-height: 20px;
+        height: 100%;
+        color: #ecf0f1;
+        font-size: 16px;
+        width: 400px;
+        box-sizing: border-box;
+        border-radius: 0 4px 4px 0;
+        padding: 5px;
+        background-color: #34495e;
+        margin: 0;
+        outline: none;
+        border: 0;
+        resize: none; }
+      .wrap .control .cd-line .cd-text {
+        padding-right: 5px; }
+
+/*# sourceMappingURL=index.css.map */

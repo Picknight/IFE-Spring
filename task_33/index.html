@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Task_33</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<link rel="shortcut icon" type="image/x-icon" href="image/1.ico" />
+</head>
+
+<body>
+	<article class="wrap">
+		<table class="map">
+			<tbody>
+			</tbody>
+		</table>
+
+		<article class="control">
+			<article class="bt-group">
+				<select>
+					<option value ="800">normal</option>
+					<option value ="400">quick</option>					
+					<option value="1000">slow</option>					
+				</select>
+				<button id="run"> run </button>
+			</article>
+			<article class="cd-line">
+				<div class="cd-left">
+					<div class="cd-text">1</div>
+				</div>
+				<textarea class="cd-right" spellcheck="false"></textarea>
+			</article>
+		</article>
+
+	</article>
+</body>
+
+<script type="text/javascript">
+var $ = function (el) { return document.querySelector(el); };
+var $$ = function (el) { return document.querySelectorAll(el); };
+/* 兼容绑定事件 */
+function addEventHandler(ele, event, hanlder) {
+	if (ele.addEventListener) {
+		ele.addEventListener(event, hanlder, false);
+	} else if (ele.attachEvent) {
+		ele.attachEvent("on"+event, hanlder);
+	} else  {
+		ele["on" + event] = hanlder;
+	}
+}
+var tbody, cat, editor, run_bt, spead_select;
+var int_time = 800;
+var regs = [/^go(\s+\d+)*$/i, /^tun\s+(lef|rig|bac)+$/i, /^build$/i, /^bru\s+#[0-9a-fA-F]{6}$/i
+, /^mov\s+to\s+\d{1,2}\,\d{1,2}$/i, /^mov\s+(lef|top|rig|bot)+(\s+\d{1,2})*$/i
+, /^tra\s+(lef|top|rig|bot)+(\s+\d{1,2})*$/i];
+var dir2num ={
+	'LEF':37,
+	'RIG':39,
+	'TOP':38,
+	'BOT':40
+};
+var move = {
+	37: [0, -37],
+	38: [-37, 0],
+	39: [0, 37],
+	40: [37, 0],
+	32: []
+};
+/* left: 37 top: 38 right: 39 down: 40 */
+function Cat(){
+	this.direction = 40;
+	this.deg = 0;
+	this.node = $('.cat');
+	this.x = 37;
+	this.y = 37;
+	this.map = [].map.call(tbody.querySelectorAll('tr'), function(tr){
+		return tr.querySelectorAll('td');
+	});
+}
+Cat.prototype = {
+	render: function(goal_dir){
+		var dev = goal_dir - this.direction;
+		if(goal_dir === 32){
+			this.build();
+			return;
+		}
+		if(Math.abs(dev) === 2){
+			this.turn('bac');
+		}else if(dev === 0){
+			this.go();
+		}else if(dev === 3 || dev === -1){
+			this.turn('lef');
+		}else{
+			this.turn('rig');
+		}		
+	},
+	go: function(index){
+		var dis =  parseInt(index) || 1;
+		var temp_x = this.x + move[this.direction][0] * dis;
+		var temp_y = this.y + move[this.direction][1] * dis;
+		if(temp_x < 37 || temp_x > 740 || temp_y < 37 || temp_y > 740)
+			return -1;                        
+		if(this.check([this.x/37, this.y/37], [temp_x/37,temp_y/37]) === -1)
+			return -1;                              
+		this.x = temp_x;
+		this.y = temp_y;
+		this.node.style.top = this.x + 'px';
+		this.node.style.left = this.y + 'px';
+	},
+	turn: function(direct){
+		if(/lef/i.test(direct)){
+			this.direction = this.direction-1<37?40:this.direction-1;
+			this.deg -= 90;
+		}else if(/rig/i.test(direct)){
+			this.direction = this.direction+1>40?37:this.direction+1;
+			this.deg += 90;
+		}else{
+			this.direction = this.direction>38?this.direction-2:this.direction+2;
+			this.deg += 180;
+		}			
+		this.node.style.transform="rotate(" + this.deg + "deg)";
+	},
+	build: function(){
+		var x = this.x/37;
+		var y = this.y/37;
+		var temp_x = x + move[this.direction][0]/37;
+		var temp_y = y + move[this.direction][1]/37;
+		if(temp_x < 1 || temp_x > 20 || temp_y < 1 || temp_y > 20)
+			return -1;
+		if(this.check([x, y], [temp_x, temp_y]) === -1)
+			return -1;
+		this.map[temp_x][temp_y].setAttribute('data-type', 'wall');      
+	},
+	bru: function(color){
+		var x = this.x/37;
+		var y = this.y/37;
+		var temp_x = x + move[this.direction][0]/37;
+		var temp_y = y + move[this.direction][1]/37;
+		if(temp_x < 1 || temp_x > 20 || temp_y < 1 || temp_y > 20)
+			return -1;
+		if(this.check([x, y], [temp_x, temp_y]) !== -1)
+			return -1;
+		this.map[temp_x][temp_y].style.backgroundColor = color;
+	},
+	tra: function(arr){
+		var dir = arr[0].toUpperCase();
+		var dis =  parseInt(arr[1]) || 1;
+		var x, y;
+		if(dir === 'TOP' || dir === 'BOT'){
+			y = this.y/37;
+			x = this.x/37 + (dir==='TOP'?(-dis):dis);
+		}else{
+			x = this.x/37;
+			y = this.y/37 + (dir==='LEF'?(-dis):dis);
+		}
+		if(x < 1 || x > 20 || y < 1 || y > 20)
+			return -1;
+		if(this.check([this.x/37, this.y/37], [x, y]) === -1)
+			return -1;                              
+		this.x = x * 37;
+		this.y = y * 37;
+		this.node.style.top = this.x + 'px';
+		this.node.style.left = this.y + 'px';
+	},
+	mov: function(arr){
+		if(this.tra(arr) === -1) 
+			return -1;
+		var dir = arr[0].toUpperCase();
+		if(dir2num[dir] !== this.direction)
+			this.render(dir2num[dir]);
+	},
+	mov_to: function(index){
+		/* 坐标转换为编号 */
+		function tool(node){
+			return (node[0]-1)*20 + node[1]-1;
+		}
+		/* 检查节点是否可以被访问 */
+		function check(node){
+			if(node[0] < 1 || node[0] > 20 || node[1] < 1 || node[1] > 20)
+				return false;
+			if(cat.map[node[0]][node[1]].getAttribute('data-type') === 'wall') 
+				return false;
+			if(visited[tool(node)])
+				return false;
+			return true;
+		}
+		var dict = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+		var rdict = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+		var g_x = parseInt(index[0].split(',')[0]);
+		var g_y = parseInt(index[0].split(',')[1]);		
+		var s_x = this.x/37;
+		var s_y = this.y/37;
+		if(s_x === g_x && s_y === g_y) return;
+		/* 记录每个节点的相对上一个节点的方向 */
+		var origin = {};
+		var visited = new Array(400);
+		var queue = [[s_x, s_y]];
+		visited[tool([s_x, s_y])] = 1;
+		/* 广度优先搜索 */
+		while(queue.length){
+			var node = queue.shift();
+			if(node[0] === g_x && node[1] === g_y) break;
+			var n_x, n_y;
+			for (var i = 0; i < 4; i++) {
+				n_x = node[0] + dict[i][0];
+				n_y = node[1] + dict[i][1];
+				if(check([n_x, n_y])){
+					visited[(n_x-1)*20+n_y-1] = 1;
+					queue.push([n_x, n_y]);
+					origin[(n_x-1)*20+n_y-1] = i;
+				}				
+			};
+		}
+		/* 检查目标节点是否可达 */
+		if(""+((g_x-1)*20+g_y-1) in origin === false) return -1;          
+
+		/* 获取移动路径 */         
+		node = [g_x, g_y];
+		var ans = [node];
+		while(1){
+			var i = origin[tool(node)];
+			var x = node[0] + rdict[i][0];
+			var y = node[1] + rdict[i][1];
+			if(x === s_x && y === s_y) break;
+			ans.unshift([x, y]);
+			node = [x, y];
+		}
+
+		/* 转化为mov指令 */
+		node = [s_x, s_y];
+		var temp;
+		ans = ans.map(function(next){
+			if(next[0] === node[0]){
+				temp = next[1]>node[1]?'rig':'lef';
+			}else{
+				temp = next[0]>node[0]?'bot':'top';
+			}
+			node = next;
+			return temp;
+		});
+
+		/* 执行移动路径 */
+		(function delay(){
+			if(ans.length){
+				cat.mov([ans.shift()]);
+				setTimeout(delay, int_time);
+			}
+		})();
+	},
+	check: function(s, e){
+		if(s[0] === e[0]){
+			var x = s[0];
+			for (var y = Math.min(s[1],e[1]); y <= Math.max(s[1],e[1]); y++) {
+				if(this.map[x][y].getAttribute('data-type') === 'wall') return -1;
+			};
+		}else{
+			var y = s[1];
+			for (var x = Math.min(s[0],e[0]); x <= Math.max(s[0],e[0]); x++) {
+				if(this.map[x][y].getAttribute('data-type') === 'wall') return -1;
+			};
+		}
+		return 1;
+	}
+};
+
+function Editor(){
+	this.node = $('textarea');
+	this.id_node = $('.cd-left');
+	this.queue = this.delay();
+	this.init();
+}
+Editor.prototype = {
+	init: function(){
+		addEventHandler(this.node, 'input', this.render.bind(this));
+		this.node.value = 'mov bot 2\ntun lef\ngo\ntun bac\ntra bot 4\nmov rig 6\nbuild\nmov bot\nmov rig\ntun lef\nbru #2980b9\nmov to 9,6';
+		this.render();
+	},
+	render: function(){
+		var editor_len = this.node.value.split('\n').length;
+		var id_len = this.id_node.children.length;
+		while(id_len > editor_len){
+			this.id_node.removeChild(this.id_node.children[id_len-1]);
+			id_len--;
+		}
+		while(id_len < editor_len){
+			id_len++;
+			this.id_node.innerHTML += '<div class="cd-text">'+id_len+'</div>';
+		}
+	},
+	normal: function(id){
+		this.id_node.querySelectorAll('.cd-text')[id].className = 'cd-text';
+	},
+	error: function(id){
+		this.id_node.querySelectorAll('.cd-text')[id].className += ' error';
+	},
+	warning: function(id){
+		this.id_node.querySelectorAll('.cd-text')[id].className += ' warning';
+	},
+	success: function(id){
+		this.id_node.querySelectorAll('.cd-text')[id].className += ' success';
+	},
+	clear: function(){
+		[].map.call(this.id_node.querySelectorAll('.cd-text'), function(node){
+			node.className = 'cd-text';
+		});
+	},
+	run: function(){
+		this.clear();
+		/* 编译 */
+		var codes = this.node.value.split('\n');
+		var flag = 1, res;
+		for (var i = 0; i < codes.length; i++) {
+			res = this.check(codes[i]);
+			if(res === -1){
+				this.error(i);
+				flag = 0;
+			}else{
+				codes[i] = [codes[i], res];
+			}
+		};
+		if(!flag) return;
+
+		/* 执行 */
+		codes.map(function(code, id){
+			switch(code[1])
+			{
+				case 0:     //go 4
+				return function(){
+					return cat.go(code[0].split(' ')[1]);
+				}
+				break;
+
+				case 1:     //tun lef|rig|bac
+				return function(){
+					return cat.turn(code[0].split(' ')[1]);
+				}
+				break;
+
+				case 2:     //build
+				return function(){
+					return cat.build();
+				}
+				break;
+
+				case 3:     //bru #ffffff
+				return function(){
+					return cat.bru(code[0].split(' ')[1]);
+				}
+				break;
+
+				case 4:     //mov to 4,4
+				return function(){
+					return cat.mov_to(code[0].split(' ').slice(2));
+				}
+				break;
+
+				case 5:     //mov lef|rig|top|bot 4
+				return function(){
+					return cat.mov(code[0].split(' ').slice(1));
+				}
+				break;
+
+				case 6:     //tra lef|rig|top|bot 4
+				return function(){
+					return cat.tra(code[0].split(' ').slice(1));
+				}
+				break;
+
+				default:
+			}
+		}).map(function(fn, id){
+			editor.queue.delay(fn, id?int_time:0, id);
+		});
+
+	},
+	check: function(v){
+		for (var i = 0; i < regs.length; i++) {
+			if(regs[i].test(v)) return i;
+		};
+		return -1;
+	},
+	delay: function(fn, t, id) {
+		var queue = [], self, timer;
+		function schedule(fn, t, id) {
+			timer = setTimeout(function() {
+				timer = null;
+				try{
+					if(!fn) return;
+					id && editor.normal(id-1);
+					editor.success(id);
+					if(fn() === -1) throw id;
+				}catch(e){
+					if(typeof e === 'number'){
+						editor.normal(e);
+						editor.warning(e);
+						self.cancel();
+					}else{
+						throw e;
+					}					
+				}
+				if (queue.length) {
+					var next = queue.shift();
+					schedule(next.fn, next.t, next.id);
+				}
+			}, t);
+		}
+		self = {
+			delay: function(fn, t, id) {
+				if (queue.length || timer) {
+					queue.push({fn: fn, t: t, id: id});
+				} else {
+					schedule(fn, t, id);
+				}
+				return self;
+			},
+			cancel: function() {
+				clearTimeout(timer);
+				queue = [];
+			}
+		}
+		return self.delay(fn, t, id);
+	}
+};
+
+
+function keydown(){
+	if(event.target !== editor.node && event.keyCode in move){
+		cat.render(event.keyCode);
+		event.preventDefault();
+	}
+}
+function select_change(){
+	int_time =  parseInt(event.target.value);
+}
+function map_init(){
+	/* cat */
+	tbody.innerHTML = '<img class="cat" src="./image/cat.png">';
+
+	/* x轴 */
+	var tr = document.createElement('tr');
+	tr.innerHTML = '<td></td>';
+	for (var i = 1; i < 21; i++) {
+		tr.innerHTML += '<td class="box" data-type="x">' + i + '</td>';
+	};
+	tbody.appendChild(tr);
+
+	/* 20个空白格 */
+	var boxs_temp = '';
+	for (var i = 0; i < 20; i++) {
+		boxs_temp += '<td class="box"></td>';
+	};
+
+	/* 20行 */
+	for (var i = 1; i < 21; i++) {
+		tr = document.createElement('tr');
+		tr.innerHTML = '<td class="box" data-type="x">' + i + '</td>' + boxs_temp;
+		tbody.appendChild(tr);
+	};	
+}
+function init(){
+
+	/* catch nodes */
+	tbody = $(".map tbody");
+	run_bt = $('#run');
+	spead_select = $('select');
+
+	/* init map */
+	map_init();
+
+	/* create obj*/
+	cat = new Cat();
+	editor = new Editor();
+
+	/* watch hot keys */
+	addEventHandler(document, 'keydown', keydown);
+	addEventHandler(run_bt, 'click', editor.run.bind(editor));
+	addEventHandler(spead_select, 'change', select_change);
+}
+
+
+init();
+</script>
+</html>
